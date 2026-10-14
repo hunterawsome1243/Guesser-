@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="description" content="Think of anything and the AI tries to guess it in 20 yes/no questions.">
+  <title>Guesser</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="/static/app.js" defer></script>
+</head>
+<body>
+  <main id="app" class="card">
+    <h1>Guesser</h1>
+    <noscript><p>Guesser needs JavaScript to play.</p></noscript>
+
+    <!-- Start screen: no game yet -->
+    <section id="start-screen">
+      <p class="intro">Think of anything: an animal, an object, a person, a character, a place. I'll ask yes/no questions and try to guess it within 20 questions.</p>
+      <button type="button" id="start-button" class="primary big">Start</button>
+      <p id="stats" class="stats"></p>
+    </section>
+
+    <!-- Playing screen: status "question" -->
+    <section id="play-screen" hidden>
+      <div class="meta">
+        <span id="question-counter"></span>
+        <span id="play-guess-info"></span>
+      </div>
+      <div class="progress" aria-hidden="true"><div id="play-progress" class="progress-fill"></div></div>
+      <div id="ruled-out" class="ruled-out" hidden>
+        <span>Ruled out:</span>
+        <ul id="ruled-out-list" class="chips"></ul>
+      </div>
+      <h2 id="question-text" class="prompt"></h2>
+      <div class="answers" role="group" aria-label="Your answer">
+        <button type="button" class="answer" data-answer="yes">Yes</button>
+        <button type="button" class="answer" data-answer="no">No</button>
+        <button type="button" class="answer" data-answer="probably">Probably</button>
+        <button type="button" class="answer" data-answer="probably_not">Probably not</button>
+        <button type="button" class="answer wide" data-answer="dont_know">Don't know</button>
+      </div>
+      <button type="button" id="play-undo" class="undo">Undo</button>
+    </section>
+
+    <!-- Guess screen: status "guess" -->
+    <section id="guess-screen" hidden>
+      <div class="meta">
+        <span id="guess-counter"></span>
+        <span id="guess-questions"></span>
+      </div>
+      <div class="progress" aria-hidden="true"><div id="guess-progress" class="progress-fill"></div></div>
+      <h2 class="prompt">Is it <span id="guess-text" class="guess"></span>?</h2>
+      <div class="choices">
+        <button type="button" id="correct-button" class="primary">Correct</button>
+        <button type="button" id="wrong-button">Wrong</button>
+      </div>
+      <button type="button" id="guess-undo" class="undo">Undo</button>
+    </section>
+
+    <!-- Result screen: status "won" or "lost" -->
+    <section id="result-screen" hidden>
+      <h2 id="result-title" class="result-title"></h2>
+      <p id="result-text" class="result-text"></p>
+      <p id="result-questions" class="muted"></p>
+      <div id="result-rejected" class="ruled-out" hidden>
+        <span>My wrong guesses:</span>
+        <ul id="result-rejected-list" class="chips"></ul>
+      </div>
+      <form id="reveal-form" class="reveal" hidden>
+        <label for="reveal-input">What were you thinking of?</label>
+        <div class="reveal-row">
+          <input id="reveal-input" type="text" maxlength="200" autocomplete="off" required>
+          <button type="submit" id="reveal-button" class="primary">Submit</button>
+        </div>
+      </form>
+      <p id="revealed" class="revealed" hidden>You were thinking of: <strong id="revealed-answer"></strong></p>
+      <button type="button" id="play-again-button" class="primary big">Play again</button>
+    </section>
+
+    <!-- Loading and error messages (announced to screen readers) -->
+    <div class="status" aria-live="polite">
+      <p id="loading" class="loading" hidden>Thinking…</p>
+      <div id="error" class="error" hidden>
+        <p id="error-message"></p>
+        <div class="error-actions">
+          <button type="button" id="retry-button">Retry</button>
+          <button type="button" id="restart-button">Start a new game</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Screen-reader announcement of each new question, guess or result -->
+    <p id="announcer" class="visually-hidden" aria-live="polite"></p>
+  </main>
+</body>
+</html>
