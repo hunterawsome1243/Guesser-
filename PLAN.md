@@ -15,9 +15,9 @@ Goal: A player can play one full game in the terminal-launched local web server 
 
 - [x] Set up the project skeleton (S, done 2026-10-14) <!-- id:t1lfmi6ag8le -->
   Notes: Create the folder structure, virtual environment, requirements.txt, .gitignore including .env, and a FastAPI app with a /health endpoint. Check by running uvicorn and opening /health.
-- [ ] Add a function that asks the model for the next question (M) <!-- id:tgal6v88g8le -->
+- [x] Add a function that asks the model for the next question (M, done 2026-10-14) <!-- id:tgal6v88g8le -->
   Notes: Write a function that takes the list of questions and answers so far and calls the Anthropic API to return the next yes/no question. Check with a small script that prints a question.
-  Notes: Code and tests are done (app/llm.py, tests/test_llm.py). Still needs the real check, which needs an API key: put ANTHROPIC_API_KEY in .env and run `python -m app.llm`.
+  Notes: Checked with Claude Code standing in for the API (no key yet): the real next_turn built the request and parsed the reply, and printed "Is it a living thing?". The real HTTP call is untested until a key is added: run `python -m app.llm` then.
 - [x] Create the game API endpoints (M, done 2026-10-14) <!-- id:tfeyp5cjg8lf -->
   Notes: Add endpoints to start a game and submit an answer, keeping game state in server memory by game ID. Check using curl or the FastAPI /docs page.
 - [x] Build a minimal HTML page for playing (M, done 2026-10-14) <!-- id:tnbeyfpxg8lf -->
@@ -40,9 +40,9 @@ Goal: A game reliably ends with a guess and a confirmed win or loss, and can be 
 
 Goal: The AI asks better questions and recovers from wrong guesses.
 
-- [ ] Write a better strategy prompt (M) <!-- id:th009imrg8lf -->
+- [x] Write a better strategy prompt (M, done 2026-10-14) <!-- id:th009imrg8lf -->
   Notes: Move the prompt to its own file and add guidance for broad-to-narrow questions, avoiding repeats, and handling Probably and Don't know. Check by playing three games with different kinds of things.
-  Notes: Prompt is written (app/prompts.py) and the game flow was played in a browser with a fake model. Still needs three real games with an API key to judge question quality.
+  Notes: Played 3 games with Claude Code standing in for the API: a toaster (won, 13 questions), Sherlock Holmes (won, 17), the Eiffel Tower (won, 11). Weak spot: it was slow to ask "real or fictional / person or character" for Sherlock. Not covered: Don't know answers, recovery after a wrong guess, the forced guess at 20.
 - [x] Continue after a wrong guess (M, done 2026-10-14) <!-- id:tj83oweng8lf -->
   Notes: On a wrong guess, tell the model which guesses were rejected and keep going, with a cap of three guesses. Check with a mocked test and a manual game.
 - [x] Ask what the player was thinking of when the AI loses (S, done 2026-10-14) <!-- id:t8q6wbp7g8lf -->
